@@ -46,9 +46,15 @@ class productManager {
         return product
 
     }
-    putProduct({id}){
-        let productIndex = this.products.index( product => product.id === id)
-        /// falta definir put me da error en este metodo
+    putProduct({id}, data){
+
+        let productIndex = this.products.findIndex( product => product.id === id);
+            console.log(productIndex)
+
+        this.products[productIndex] ={
+            ...this.products[productIndex], ///copia del objeto
+            ...data //sobreescritura
+        }
       
     }
 
@@ -89,8 +95,7 @@ router.put("/:id",(req, res) =>{
    
     let dataProduct = req.body;
     const {id} = req.params;
-    
-    const productId = productNew.putProduct({id})
+    const productId = productNew.putProduct({id}, dataProduct)
     res.send(productId)
 
 
