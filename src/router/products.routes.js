@@ -19,7 +19,7 @@ router.get("/",async (req, res) => {
 router.get("/:id", async (req, res) => {
    try {
     const {id} = req.params;
-    console.log(id)
+    
     const productId = await productsManager.getProductById(id);
     
     res.status(200).json({status: "success", productId});
@@ -65,7 +65,7 @@ router.put("/:id", async (req, res) =>{
 router.delete("/:id", async (req, res) => {
     try {
         const {id} = req.params;
-        const productToDelete = await productsManager.deleteProduct(Number(id));
+        const productToDelete = await productsManager.deleteProduct(id);
         if(!productToDelete) return res.status(404).json({status: "Error", msg: `El producto con ID ${id}, no se encontró`})
     
         res.status(200).json({ status: "success", productToDelete });

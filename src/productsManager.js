@@ -64,6 +64,7 @@ const putProduct = async(id, productBody) =>{
 }
 
 const deleteProduct = async(id) =>{
+    console.log(id)
     await getProducts();
     const product = await getProductById(id);
     if(!product) return false;
