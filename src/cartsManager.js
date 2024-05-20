@@ -39,7 +39,7 @@ const getCartById = async (cid) => {
 
 ///FUNCION QUE REALIZA EL AGREGADO DE UN PRODUCTO AL CARRO
 const addProductToCart = async (id, pId) => {
-    console.log("first")
+
     await getCarts();
     
     const product = {
@@ -48,6 +48,11 @@ const addProductToCart = async (id, pId) => {
     };
 
     const index = carts.findIndex((cart) => cart.id === id);
+    console.log(pId)
+
+    const busqueda = carts[index].products.filter((prod) => prod.id === pId);
+    console.log(carts[index])
+
     carts[index].products.push(product);
 
     await fs.promises.writeFile(pathFile, JSON.stringify(carts));

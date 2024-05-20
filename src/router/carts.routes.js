@@ -52,7 +52,7 @@ router.post("/:cId/product/:id", async (req, res) => {
             
         } catch (error) {
             console.log(error);
-            res.status(500).json({ status: "Erro", msg: "Error interno del servidor" });
+            res.status(500).json({ status: "Erro", msg: "Error ojo interno del servidor" });
         }
 
 
