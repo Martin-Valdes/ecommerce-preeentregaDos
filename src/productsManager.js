@@ -6,6 +6,8 @@ import fs from "fs";
 
 const pathFile = "./src/data/products.json";
 
+
+//FUNCION PARA AGREGAR NUEVOS PRODUCTOS
 const addProduct = async(product) =>{
   
     await getProducts();
@@ -30,7 +32,7 @@ const addProduct = async(product) =>{
     return product;
 }
 
-
+////FUNCION PARA VER LOS PRODUCTOS AGREGADOS
 const getProducts = async(limit) => {
     const productList = await fs.promises.readFile(pathFile, "utf-8");
     const productParse = JSON.parse(productList);
@@ -41,14 +43,15 @@ const getProducts = async(limit) => {
     return products.slice(0, limit)
 }
 
+////VER PRODUCTOS POR ID
 const getProductById = async (id) => {
     
     products = await getProducts();
-  const product = products.find((p) => p.id === id);
+    const product = products.find((p) => p.id === id);
 
-  return product;
+    return product;
 }
-
+/// FUNCION PARA EDITAR PRODUCTOSEXISTENTES
 const putProduct = async(id, productBody) =>{
 
     await getProducts();
@@ -63,6 +66,8 @@ const putProduct = async(id, productBody) =>{
     return product;
 }
 
+
+///BORRAR PRODUCTOS POR ID
 const deleteProduct = async(id) =>{
     console.log(id)
     await getProducts();

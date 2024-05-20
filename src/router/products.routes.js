@@ -22,6 +22,8 @@ router.get("/:id", async (req, res) => {
     
     const productId = await productsManager.getProductById(id);
     
+    if (!productId) return res.status(404).json({ status: "Error", msg: "Producto no encontrado" });
+
     res.status(200).json({status: "success", productId});
 
    } catch (error) {
@@ -44,15 +46,16 @@ router.post ("/", verifyDataProduct, async (req, res) =>{
       }
     
 })
-
+// endPoint para modificar un producto
 router.put("/:id", async (req, res) =>{
    
     try {
         const dataProduct = req.body;
         const {id} = req.params;
-        const productId = productsManager.putProduct(Number(id), dataProduct)
+        const productId = await productsManager.putProduct(id, dataProduct)
+        console.log(productId)
         if (!productId) return res.status(404).json({ status: "Error", msg: "Producto no encontrado" });
-
+      
         res.status(200).json({ status: "success", productId });
     } catch (error) {
         console.log(error);

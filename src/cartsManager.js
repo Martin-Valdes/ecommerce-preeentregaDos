@@ -16,7 +16,6 @@ const getCarts = async() => {
     carts = listPars || [];
 }
 
-
 // AGREGAMOS UN NUEVO CARRITO LO PUSHEAMOS Y LUEGO DE PASARLOS A JSON LOS GUARDAMOS PARA PERSISTENCIA DE DATOS.
 const addCart = async () =>{
     await getCarts();
@@ -39,25 +38,28 @@ const getCartById = async (cid) => {
 
 ///FUNCION QUE REALIZA EL AGREGADO DE UN PRODUCTO AL CARRO
 const addProductToCart = async (id, pId) => {
-
     await getCarts();
-    
+
+    let quantity = 1;
+
     const product = {
         product: pId,
-        quantity: 1,
+        quantity: quantity,
     };
 
     const index = carts.findIndex((cart) => cart.id === id);
-    console.log(pId)
 
-    const busqueda = carts[index].products.filter((prod) => prod.id === pId);
-    console.log(carts[index])
-
-    carts[index].products.push(product);
+    const productOnCart = carts[index].products.find(p => p.product === pId);
+    
+    if(productOnCart){
+        productOnCart.quantity = productOnCart.quantity + 1;
+    }else{
+        carts[index].products.push(product);
+    }
 
     await fs.promises.writeFile(pathFile, JSON.stringify(carts));
     return carts[index];
-
+    
 }
 
 export default {

@@ -41,18 +41,22 @@ router.post("/:cId/product/:id", async (req, res) => {
         try {
             const {cId, id} = req.params;
             
+            //vlidamos el id del prod
             const product = await productsManager.getProductById(id);
             if(!product) return res.status(404).json({status:"Error", msg: "El producto no existe"});
             
+            //validamos el id del carrito
+            const cartExist = await cartsManager.getCartById(cId);
+            if(!cartExist) return res.status(404).json({status:"Error", msg: "El id del carrito no existe"});
 
+            //si todo esta ok agregamos el prod al carrito
             const cart = await cartsManager.addProductToCart(cId, id);
-            if(!cart) return res.status(404).json({status:"Error", msg: "El producto no existe"});
 
             res.status(200).json({ status: "success", cart });
             
         } catch (error) {
             console.log(error);
-            res.status(500).json({ status: "Erro", msg: "Error ojo interno del servidor" });
+            res.status(500).json({ status: "Erro", msg: "Error interno del servidor" });
         }
 
 
