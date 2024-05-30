@@ -1,0 +1,32 @@
+<div class="homeContainer">
+    <h2>Registro de Productos</h2>
+
+    <form class="containerForm" action="/products" method="post">
+        <label for="">Titulo</label>
+        <input class="inputValue" type="text" name="title">
+        <label for="">Descripción</label>
+        <input class="inputValue" type="text" name="description">
+        <label for="">Código</label>
+        <input class="inputValue" type="text" name="code">
+        <label for="">Precio</label>
+        <input class="inputValue" type="text" name="price">
+        <label for="">Stock</label>
+        <input class="inputValue" type="text" name="stock">
+        <label for="">Categoría</label>
+        <input class="inputValue" type="text" name="category">
+
+        <input class="buttonSend" type="submit" value="Crear">
+    </form>
+</div>
+    
+<h3>Lista de Productos</h3>
+{{#each products}}
+  <div>
+    <p>Titulo: {{this.title}}</p>
+    <p>Descripcion: {{this.description}}</p>
+  </div>
+{{/each}}
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/test.js"></script>
+

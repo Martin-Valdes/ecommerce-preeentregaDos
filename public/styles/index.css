@@ -1,0 +1,43 @@
+html,body{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    overflow-x: hidden;
+}
+.homeContainer{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    background-image: url('../img/milad-fakurian-seA-FPPXL-M-unsplash.webp');
+    background-size: cover;
+    width: 100%;
+    height: 62.5rem;
+}
+.containerForm{
+    display: flex;
+    gap: 1.25rem;
+    flex-direction: column;
+    align-item: center;
+    justify-content: center;
+    color: white;
+    heigh: 62.5rem;
+    width:18.75rem;
+}
+h2{
+    color: white;
+}
+.buttonSend{
+    background-color:black;
+    color: white;
+    font-size: 1.5rem;
+    border-radius: .625rem;
+    border-color: red ;
+}
+.inputValue{
+    height: 1.875rem;
+    font-size: 1.5rem;
+}
+label{
+    font-size: 1.5rem;
+}
