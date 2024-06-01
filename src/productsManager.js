@@ -9,7 +9,7 @@ const pathFile = "./src/data/products.json";
 
 //FUNCION PARA AGREGAR NUEVOS PRODUCTOS
 const addProduct = async(product) =>{
-  
+    
     await getProducts();
     const {title, description, code, price, stock, category, thumbnails} = product;
   

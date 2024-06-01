@@ -30,7 +30,7 @@ export const socketServer = new Server(httpServer);
 
 socketServer.on("connection", async() => {
   console.log("Nuevo usuario conectado");
-
-
+  const products = await productsManager.getProducts();
+  socketServer.emit("products", products)
 });
 

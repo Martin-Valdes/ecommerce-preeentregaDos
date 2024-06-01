@@ -18,10 +18,10 @@ html,body{
     display: flex;
     gap: 1.25rem;
     flex-direction: column;
-    align-item: center;
+    align-items: center;
     justify-content: center;
     color: white;
-    heigh: 62.5rem;
+    height: 62.5rem;
     width:18.75rem;
 }
 h2{
@@ -40,4 +40,30 @@ h2{
 }
 label{
     font-size: 1.5rem;
+}
+.containerCard{
+    width: 18.75rem;
+    height: fit-content;
+    background-color: rgb(226, 226, 226);
+    
+}
+h5{
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: 300;
+}
+.itemsList{
+    font-size: 1.25rem;
+    padding: .625rem;
+    width: 100%;
+    margin: 0;
+}
+.container{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    width: 100%;
+    gap: 1.25rem;
+    margin: 1.25rem;
+    background-color: rgba(0, 0, 255, 0.226);
 }

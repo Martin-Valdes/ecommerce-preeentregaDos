@@ -16,13 +16,12 @@
         <input class="buttonSend" type="submit" value="Crear">
     </form>
     <form id="deleteProduct" class="containerForm">
+        <label for="category">ID del producto a eliminar</label>
         <input id="id"class="inputValue" type="text" name="id">
         <button class="buttonSend" type="submit">Eliminar producto</button>
     </form>
-
-    
 </div>
-<div id="products"></div>
+<div id="products" class="container"></div>
 
 
 <script src="/socket.io/socket.io.js"></script>

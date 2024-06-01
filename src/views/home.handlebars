@@ -1,10 +1,17 @@
 
 <h3>Lista de Productos</h3>
 {{#each products}}
-  <div>
+<div class="container">
+  <div class="containerCard">
     <p>Titulo: {{this.title}}</p>
     <p>Descripcion: {{this.description}}</p>
+    <p>Precio: {{this.price}}</p>
+    <p>Codigo: {{this.code}}</p>
+    <p>Stock: {{this.stock}}</p>
+    <p>Categoría: {{this.category}}</p>
   </div>
+</div>
+  
 {{/each}}
 
 

@@ -34,10 +34,11 @@ router.get("/realtimeproducts", async (req, res) => {
 });
 
 router.post("/realtimeproducts", async(req, res) =>{
-
+    
   try {
-    const {title, description, price} = req.body;
-    await productManager.addProduct({title, description, price});
+    const {title, description, price, stock, category, code} = req.body;
+    
+    await productManager.addProduct({title, description, price, stock, category, code});
     const products = await productManager.getProducts();
     socketServer.emit("products", products);
 
