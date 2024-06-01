@@ -1,0 +1,30 @@
+<div class="homeContainer">
+    <h2>Registro de Productos</h2>
+    <form id="addProduct" class="containerForm" action="/products" method="post">
+        <label for="title">Titulo</label>
+        <input id="title" class="inputValue" type="text" name="title">
+        <label for="description">Descripción</label>
+        <input id="description" class="inputValue" type="text" name="description">
+        <label for="code">Código</label>
+        <input id="code" class="inputValue" type="text" name="code">
+        <label for="price">Precio</label>
+        <input id="price" class="inputValue" type="text" name="price">
+        <label for="stock">Stock</label>
+        <input id="stock" class="inputValue" type="text" name="stock">
+        <label for="category">Categoría</label>
+        <input id="category" class="inputValue" type="text" name="category">
+        <input class="buttonSend" type="submit" value="Crear">
+    </form>
+    <form id="deleteProduct" class="containerForm">
+        <input id="id"class="inputValue" type="text" name="id">
+        <button class="buttonSend" type="submit">Eliminar producto</button>
+    </form>
+
+    
+</div>
+<div id="products"></div>
+
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/test.js"></script>
+

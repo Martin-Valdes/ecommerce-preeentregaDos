@@ -1,31 +1,73 @@
 import { Router } from "express";
+import productManager from "../productsManager.js"
+import {socketServer} from "../app.js"
+
 
 const router = Router();
 
-router.get("/", (req, res) => {
+router.get("/", async(req, res) => {
   
-  res.render("home", {styles: "index.css" });
+  try {
+    const products = await productManager.getProducts();
+    console.log(products)
+    res.render("home",{products, styles: "index.css"  });
+
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({error: "Error interno del servidor"});
+  }
+
 });
 
-router.post("/products", (req, res) => {
+router.get("/realtimeproducts", async (req, res) => {
 
-  let products = [];
 
-  const { title, description, code, price, stock, category} = req.body;
+  try {
+    const products = await productManager.getProducts();
+    socketServer.emit("products", products)
+    res.render("realTimeProducts", {styles: "index.css" });
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({error: "Error interno del servidor"});
+  }
 
-  const newProduct = {
-    title,
-    description,
-    code,
-    price,
-    stock,
-    category
-  };
-
-  products.push(newProduct)
-
-  res.render("home", {styles: "index.css" });
 });
+
+router.post("/realtimeproducts", async(req, res) =>{
+
+  try {
+    const {title, description, price} = req.body;
+    await productManager.addProduct({title, description, price});
+    const products = await productManager.getProducts();
+    socketServer.emit("products", products);
+
+    res.render("realTimeProducts");
+
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({error: "Error interno del servidor"});
+  }
+
+
+})
+
+router.delete("/realtimeproducts", async(req, res) =>{
+
+  try {
+    const {id} = req.body;
+    await productManager.deleteProduct(id);
+    const products = await productManager.getProducts();
+    socketServer.emit("products", products);
+
+    res.render("realTimeProducts");
+
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({error: "Error interno del servidor"});
+  }
+
+
+})
 
 
 

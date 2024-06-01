@@ -4,6 +4,7 @@ import viewRoutes from "./routes/views.routes.js";
 import handlebars from "express-handlebars";
 import __dirname from "./dirname.js";
 import { Server } from "socket.io";
+import productsManager from "./productsManager.js";
 
 const app = express();
 const PORT = 8080;
@@ -25,18 +26,11 @@ const httpServer = app.listen(PORT, () => {
     console.log(`Server on port ${PORT}`);
 });
 
-let messages = [];
+export const socketServer = new Server(httpServer);
 
-const socketServer = new Server(httpServer);
-
-socketServer.on("connection", (socket) => {
+socketServer.on("connection", async() => {
   console.log("Nuevo usuario conectado");
-  socket.on("message", (data) => {
-      messages.push(data);
-      socketServer.emit("messageLog", messages);
-  })
 
-  socket.on("newUser", (data) => {
-      socket.broadcast.emit("newUser", data);
-  })
+
 });
+
