@@ -3,7 +3,9 @@ const productList = document.getElementById("products");
 const addproduct = document.getElementById("addProduct");
 const deleteProduct = document.getElementById("deleteProduct");
 
-
+////EVENTO DEL FORMULARIO PARA AGREGAR UN PRODUCTO
+//// SE GENERA EL BODY CON LA DATA PARA QUE EL BACK 
+////ATIENDA LA PETICION Y SE CREE EL NUEVO PRODUCTO
 addproduct.addEventListener("submit", async (e) => {
   
   e.preventDefault();
@@ -25,7 +27,9 @@ addproduct.addEventListener("submit", async (e) => {
 
   addproduct.reset();
 })
-
+////ELIMINAR UN PRODUCTO, DEL LADO DEL CLIENTE AL DAR SUBMIT
+/// SE GENERA EL EVENTO Y ENVIAMOS AL BACK LOS DATOS DEL BODY 
+/// PARA QUE SEPA CUAL ELIMINAR
 deleteProduct.addEventListener("submit", async (e) =>{
   e.preventDefault();
 
@@ -42,7 +46,7 @@ deleteProduct.addEventListener("submit", async (e) =>{
   deleteProduct.reset();
 
 })
-
+///DEL LADO DEL FRONT ESTAMOS INSERTANDO EL O LOS DIV CON LA DATA DEL PRODUCTO 
 socket.on("products", (data) => {
     productList.innerHTML = "";
      data.forEach((product) => {

@@ -4,7 +4,7 @@ import {socketServer} from "../app.js"
 
 
 const router = Router();
-
+///RENDERIZADO DE LOS PRODUCTOS CON HANDLEBARS 
 router.get("/", async(req, res) => {
   
   try {
@@ -16,11 +16,9 @@ router.get("/", async(req, res) => {
     console.log(error);
     res.status(500).json({error: "Error interno del servidor"});
   }
-
 });
-
+///RENDERIZADO MEDIANTE HANDLEBARS Y WEBSOCKETS DE PRODUCTOS Y FORM
 router.get("/realtimeproducts", async (req, res) => {
-
 
   try {
     const products = await productManager.getProducts();
@@ -30,9 +28,8 @@ router.get("/realtimeproducts", async (req, res) => {
     console.log(error)
     res.status(500).json({error: "Error interno del servidor"});
   }
-
 });
-
+///METODO POST PARA AGREGADO DE PRODUCTOS A DATA JS
 router.post("/realtimeproducts", async(req, res) =>{
     
   try {
@@ -48,10 +45,8 @@ router.post("/realtimeproducts", async(req, res) =>{
     console.log(error)
     res.status(500).json({error: "Error interno del servidor"});
   }
-
-
 })
-
+////ELIMINAR UN PRODUCTO MEDIANTE EL ID GENERADO
 router.delete("/realtimeproducts", async(req, res) =>{
 
   try {
@@ -66,8 +61,6 @@ router.delete("/realtimeproducts", async(req, res) =>{
     console.log(error)
     res.status(500).json({error: "Error interno del servidor"});
   }
-
-
 })
 
 

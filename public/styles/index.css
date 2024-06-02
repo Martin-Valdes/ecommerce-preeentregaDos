@@ -47,7 +47,7 @@ label{
     background-color: rgb(226, 226, 226);
     
 }
-h5{
+h5,h3{
     text-align: center;
     font-size: 1.5rem;
     font-weight: 300;
