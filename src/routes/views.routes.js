@@ -1,5 +1,5 @@
 import { Router } from "express";
-import productManager from "../productsManager.js"
+import productManager from "../dao/fileSystem/productsManager.js"
 import {socketServer} from "../app.js"
 
 

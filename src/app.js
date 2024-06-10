@@ -1,13 +1,14 @@
 import express from "express";
-import router from "./router/index.js";
-import viewRoutes from "./routes/views.routes.js";
+import allRoutes from "./routes/index.js";
 import handlebars from "express-handlebars";
 import __dirname from "./dirname.js";
 import { Server } from "socket.io";
-import productsManager from "./productsManager.js";
+import { connectMongoDB } from "./config/mongoDB.config.js";
 
 const app = express();
 const PORT = 8080;
+
+connectMongoDB();
 
 app.use(express.urlencoded({extended:true}));
 app.use(express.json());
@@ -17,10 +18,7 @@ app.engine("handlebars", handlebars.engine());
 app.set("views", __dirname + "/views"); 
 app.set("view engine", "handlebars"); 
 
-
-app.use("/api", router);
-app.use("/", viewRoutes);
-
+app.use("/", allRoutes);
 
 const httpServer = app.listen(PORT, () => {
     console.log(`Server on port ${PORT}`);
