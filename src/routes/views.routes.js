@@ -11,7 +11,6 @@ router.get("/", async(req, res) => {
     const products = await productManager.getProducts();
     console.log(products)
     res.render("home",{products, styles: "index.css"  });
-
   } catch (error) {
     console.log(error);
     res.status(500).json({error: "Error interno del servidor"});
@@ -34,7 +33,7 @@ router.post("/realtimeproducts", async(req, res) =>{
     
   try {
     const {title, description, price, stock, category, code} = req.body;
-    
+  
     await productManager.addProduct({title, description, price, stock, category, code});
     const products = await productManager.getProducts();
     socketServer.emit("products", products);

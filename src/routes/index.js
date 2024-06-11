@@ -5,8 +5,8 @@ import viewsRoutes from "./views.routes.js"
 
 const allRoutes = Router();
 
-allRoutes.use("/products", productsRoutes);
-allRoutes.use("/carts", cartsRoutes);
+allRoutes.use("/api/products", productsRoutes);
+allRoutes.use("/api/carts", cartsRoutes);
 allRoutes.use("/", viewsRoutes);
 
 export default allRoutes;
