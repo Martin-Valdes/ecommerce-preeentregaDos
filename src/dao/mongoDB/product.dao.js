@@ -1,7 +1,8 @@
 import {productModel} from "./models/products.models.js"
 
-const getAll = async () => {
-    const products = await productModel.find({status: true});
+const getAll = async (query, option) => {
+    ////AQUI APLICAMOS LA PAGINACION SEGUN LOS DOS PARAMETROS QUE NOS LLEGAN QUERY Y OPTION
+    const products = await productModel.paginate(query, option);
     return products
 };
 const getById = async (id) => {

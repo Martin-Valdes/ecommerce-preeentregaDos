@@ -1,6 +1,8 @@
 import mongoose from "mongoose";
+import mongoosePaginate from "mongoose-paginate-v2";
 
 const productCollerction = "products";
+
 
 const productSchema = new mongoose.Schema({
 
@@ -19,5 +21,8 @@ const productSchema = new mongoose.Schema({
         default: true,
     },
 });
+
+///ESTE ES EL PLUGIN PARA PODER UTILIZAR LA PAGINACION EN NUESTRA API
+productSchema.plugin(mongoosePaginate);
 
 export const productModel = mongoose.model(productCollerction, productSchema);

@@ -3,9 +3,9 @@ import mongoose from "mongoose";
 const cartCollerction = "cart";
 
 const cartSchema = new mongoose.Schema({
-
+    ///ACA SE ESTRUCTURA EL ESQUEMA DEL CARRITO EL CUAL TENDRA SOLO EL ID DEL PRODUCTO Y LA CANTIDAD, Y NO TODOS LOS ELEMENTOS DEL CARRITO
     products: {
-        type: [{porduct:{type: mongoose.Schema.Types.ObjectId, ref:"product"}, quantity: Number}],
+        type: [{product:{type: mongoose.Schema.Types.ObjectId, ref:"product"}, quantity: Number}],
     }
 });
 

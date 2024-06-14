@@ -48,7 +48,8 @@ router.post("/:cId/product/:pid", async (req, res) => {
             if(!cartExist) return res.status(404).json({status:"Error", msg: "El id del carrito no existe"});
 
             //si todo esta ok agregamos el prod al carrito
-            const cart = await cartDao.addProductToCart(cId, product._id);
+            
+            const cart = await cartDao.addProductToCart(cId, pid);
 
             res.status(200).json({ status: "success", cart });
             
@@ -58,18 +59,78 @@ router.post("/:cId/product/:pid", async (req, res) => {
         }
 });
 
-router.delete("/:cid", async (req, res) => {
-    try {
-        const {cid} = req.params;
-        const cart = await cartDao.deleteOne(cid);
-        if(!cart) return res.status(404).json({status:"Error", msg: "El id del carrito no existe"});
 
-        res.status(200).json({status: "sucess", msj: "Carrito eliminado con exito"});
+///AQUI ELIMINAMOS UN PRODUCTO DEL CARRITO
+router.delete("/:cId/product/:pid", async (req, res) => {
+
+    try {
+        const {cId, pid} = req.params;
+        //vlidamos el id del prod
+        const product = await productDao.getById(pid);
+        if(!product) return res.status(404).json({status:"Error", msg: "El producto no existe"});
+        
+        //validamos el id del carrito
+        const cartExist = await cartDao.getById(cId);
+        if(!cartExist) return res.status(404).json({status:"Error", msg: "El id del carrito no existe"});
+
+        //si todo esta ok agregamos el prod al carrito
+        const cart = await cartDao.deletePorductToCart(cId, pid);
+
+        res.status(200).json({ status: "success", cart });
+        
     } catch (error) {
         console.log(error);
         res.status(500).json({ status: "Erro", msg: "Error interno del servidor" });
     }
-})
+});
+
+
+///EN ESTE ENDPOINT REALIZAMOS LA ACTUALIZACION DEL QUNATITY 
+
+router.put("/:cId/product/:pid", async (req, res) => {
+
+    try {
+        const {cId, pid} = req.params;
+        const {quantity} = req.body;
+        //vlidamos el id del prod
+        const product = await productDao.getById(pid);
+        if(!product) return res.status(404).json({status:"Error", msg: "El producto no existe"});
+        
+        //validamos el id del carrito
+        const cartExist = await cartDao.getById(cId);
+        if(!cartExist) return res.status(404).json({status:"Error", msg: "El id del carrito no existe"});
+        
+        const cartModify = await cartDao.updateModifyQuantity(cId, pid, quantity);
+
+        if(!product) return res.status(404).json({status:"Error", msg: "El producto no existe en el carrito"});
+
+        res.status(200).json({ status: "success", cartModify });
+        
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ status: "Erro", msg: "Error interno del servidor" });
+    }
+});
+
+//EN ESTE ENDPOINT OBTENEMOS EL ID DEL CARRITO Y LLAMAMOS A
+//CART.DAO PARA  VACIAR EL CARRITO A TRAVEZ DE UN ARRAY VACIO. 
+//EN CASO DE NO COINCIDIR EL ID DEL CART CON NINGUNO DE LA BASE DE DATOS SE MUESTRA EL ERROR
+router.delete("/:cId", async (req, res) => {
+
+    try {
+        const {cId} = req.params;
+        const cart = await cartDao.deleteProductsTocarts(cId);
+
+        if (!cart) return res.status(404).json({ status: "Error", msg: "Carrito no encontrado" });
+        res.status(200).json({ status: "success", cart });
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ status: "Erro", msg: "Error interno del servidor" });
+    }
+});
+
+
 
 
 

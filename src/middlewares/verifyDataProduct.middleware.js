@@ -1,5 +1,5 @@
 import { request, response } from "express";
-import productsManager from "../dao/fileSystem/productsManager.js";
+import productsDao from "../dao/mongoDB/product.dao.js"
 
 export const verifyDataProduct = async (req = request, res = response, next) => {
   try {
@@ -13,9 +13,9 @@ export const verifyDataProduct = async (req = request, res = response, next) => 
       category,
     };
 
-    const products = await productsManager.getProducts();
+    const products = await productsDao.getAll();
     // Validar que no se repita el campo de code
-    const productExists = products.find((p) => p.code === code);
+    const productExists = products.docs.find((p) => p.code === code);
     if (productExists) return res.status(400).json({ status: "Error", msg: `El producto con el código ${code} ya existe` });
 
     // Validamos que los campos sean obligatorios
@@ -26,6 +26,6 @@ export const verifyDataProduct = async (req = request, res = response, next) => 
     next();
   } catch (error) {
     console.log(error);
-    res.status(500).json({ status: "Erro", msg: "Error interno del servidor" });
+    res.status(500).json({ status: "Erro", msg: "Verify data error" });
   }
 };

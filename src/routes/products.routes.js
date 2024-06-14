@@ -3,11 +3,31 @@ import productDao from "../dao/mongoDB/product.dao.js";
 import { verifyDataProduct } from "../middlewares/verifyDataProduct.middleware.js";
 
 const router = Router();
-
+/// OBTENEMOS LOS PRODUCTOS SEGUN LOS FILTROS DEFINIDOS POR PARAMS DESDE QUERY
 router.get("/", async (req, res) =>{
     
     try {
-        const products = await productDao.getAll();
+        ///OBTENEMOS DATOS PARA PAGINACION
+        const {limit, page, sort, category, status } = req.query;
+
+        const options = {
+            limit: limit || 10,
+            page: page || 1,
+            sort: {
+                price: sort === "asc" ? 1 : -1,
+            },
+            learn: true
+        }
+        if(category){
+            const products = await productDao.getAll({category}, options);
+            return res.status(200).json({status: "sucess", products});
+        }
+        if(status){
+            const products = await productDao.getAll({status}, options);
+            return res.status(200).json({status: "sucess", products});
+        }
+
+        const products = await productDao.getAll({}, options) ;
 
         res.status(200).json({status: "sucess", payload: products});
 
@@ -16,7 +36,7 @@ router.get("/", async (req, res) =>{
         res.status(500).json({ status: "Error", msg: "Internal server error" });
     }
 })
-
+///AGREGAMOS NUEVO PRODUCTO PERO ANTES SE VERIFICA LA DATA CON MIDDLEWARE.
 router.post("/",verifyDataProduct, async (req, res) => {
     try {
         const newProduct = req.body;
@@ -29,6 +49,7 @@ router.post("/",verifyDataProduct, async (req, res) => {
     }
 });
 
+////ELIMINAMOS UN PRODUCTO MEDIANTE ID
 router.delete("/:pid", async (req, res) => {
     
     try {
@@ -44,6 +65,7 @@ router.delete("/:pid", async (req, res) => {
     }
 });
 
+////MODIFICAMOS LA DATA DE UN PRODUCTO
 router.put("/:pid", async (req, res) => {
     try {
         const {pid} = req.params;
@@ -59,6 +81,7 @@ router.put("/:pid", async (req, res) => {
     }
 });
 
+/////BUSCAMOS UN PRODUCTO MEDIANTE ID
 router.get("/:pid", async(req,res) => {
     try {
         const {pid} = req.params;

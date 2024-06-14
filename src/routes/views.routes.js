@@ -10,7 +10,7 @@ router.get("/", async(req, res) => {
   try {
     const products = await productManager.getProducts();
     console.log(products)
-    res.render("home",{products, styles: "index.css"  });
+    res.render("home",{products, styles: "index.css"});
   } catch (error) {
     console.log(error);
     res.status(500).json({error: "Error interno del servidor"});
@@ -22,7 +22,7 @@ router.get("/realtimeproducts", async (req, res) => {
   try {
     const products = await productManager.getProducts();
     socketServer.emit("products", products)
-    res.render("realTimeProducts", {styles: "index.css" });
+    res.render("realTimeProducts", {styles: "index.css"});
   } catch (error) {
     console.log(error)
     res.status(500).json({error: "Error interno del servidor"});
