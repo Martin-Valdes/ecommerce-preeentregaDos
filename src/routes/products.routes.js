@@ -1,8 +1,10 @@
 import { Router } from "express";
 import productDao from "../dao/mongoDB/product.dao.js";
 import { verifyDataProduct } from "../middlewares/verifyDataProduct.middleware.js";
+import { verifyProductExist } from "../middlewares/verifyProductExist.middleware.js";
 
 const router = Router();
+
 /// OBTENEMOS LOS PRODUCTOS SEGUN LOS FILTROS DEFINIDOS POR PARAMS DESDE QUERY
 router.get("/", async (req, res) =>{
     
@@ -50,12 +52,11 @@ router.post("/",verifyDataProduct, async (req, res) => {
 });
 
 ////ELIMINAMOS UN PRODUCTO MEDIANTE ID
-router.delete("/:pid", async (req, res) => {
+router.delete("/:pid",verifyProductExist, async (req, res) => {
     
     try {
        const {pid} = req.params;
-       const product = await productDao.deleteOne(pid);
-       if(!product) return res.status(404).json({status: "Error", msg: "No se encontro el producto"});
+       await productDao.deleteOne(pid);
 
        res.status(200).json({status: "sucess", msg: `El producto con el ID numero ${pid} fue eliminado`});
 
@@ -66,13 +67,12 @@ router.delete("/:pid", async (req, res) => {
 });
 
 ////MODIFICAMOS LA DATA DE UN PRODUCTO
-router.put("/:pid", async (req, res) => {
+router.put("/:pid", verifyProductExist, async (req, res) => {
     try {
         const {pid} = req.params;
         const data = req.body;
         const product = await productDao.update(pid, data);
-        if(!product) return res.status(404).json({status: "Error", msg: "No se encontro el producto"});
-
+        
         res.status(200).json({status: "sucess", payload: product});
 
     } catch (error) {
@@ -82,12 +82,11 @@ router.put("/:pid", async (req, res) => {
 });
 
 /////BUSCAMOS UN PRODUCTO MEDIANTE ID
-router.get("/:pid", async(req,res) => {
+router.get("/:pid", verifyProductExist, async(req,res) => {
     try {
         const {pid} = req.params;
         const product = await productDao.getById(pid);
-        if(!product) return res.status(404).json({status: "error", msg: "Producto no encontrado"});
-
+    
         res.status(200).json({status: "sucess", payload: product});
         
     } catch (error) {
