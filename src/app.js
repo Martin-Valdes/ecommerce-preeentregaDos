@@ -4,6 +4,7 @@ import handlebars from "express-handlebars";
 import __dirname from "./dirname.js";
 import { Server } from "socket.io";
 import { connectMongoDB } from "./config/mongoDB.config.js";
+import cookieParser from "cookie-parser";
 
 const app = express();
 const PORT = 8080;
@@ -13,6 +14,8 @@ connectMongoDB();
 app.use(express.urlencoded({extended:true}));
 app.use(express.json());
 app.use(express.static("public"));
+
+app.use(cookieParser())
 
 app.engine("handlebars", handlebars.engine()); 
 app.set("views", __dirname + "/views"); 
