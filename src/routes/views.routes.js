@@ -62,6 +62,28 @@ router.delete("/realtimeproducts", async(req, res) =>{
   }
 });
 
+//SETEANDO COOKIES
+router.get("/setCookie", async(req, res) =>{
+
+  res.cookie("userData", "Hello", {maxAge: 100000}).send("Cookie set");
+
+});
+
+//OBTENIENDO COOKIE
+router.get("/getCookie", (req, res) => {
+
+  res.send(req.cookies.userData);
+
+});
+
+//ELIMINANDO COOKIES
+router.get("/deleteCookie", (req, res) => {
+
+  res.clearCookie("userData").send("Cookie Delete");
+
+})
+
+
 
 
 
