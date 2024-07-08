@@ -5,6 +5,7 @@ import __dirname from "./dirname.js";
 import { Server } from "socket.io";
 import { connectMongoDB } from "./config/mongoDB.config.js";
 import cookieParser from "cookie-parser";
+import session from "express-session";
 
 const app = express();
 const PORT = 8080;
@@ -15,7 +16,13 @@ app.use(express.urlencoded({extended:true}));
 app.use(express.json());
 app.use(express.static("public"));
 
+//COOKIES
 app.use(cookieParser());
+app.use(session({
+  secret: "secretCoder",
+  resave: true,
+  saveUninitialized: true,
+}));
 
 app.engine("handlebars", handlebars.engine()); 
 app.set("views", __dirname + "/views"); 

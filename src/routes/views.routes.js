@@ -81,6 +81,51 @@ router.get("/deleteCookie", (req, res) => {
 
   res.clearCookie("userData").send("Cookie Delete");
 
+});
+
+router.get("/session", (req, res) => {
+  if(req.session.counter){
+    req.session.counter++;
+    res.send(`A ingresado ${req.session.counter} veces a este sitio`);
+  }else{
+    req.session.counter = 1;
+    res.send("Welcome");
+  }
+});
+
+// GENERANDO UN ADMINISTRADOR
+
+router.get("/login", (req, res) => {
+
+  const {username, password} = req.query;
+
+  if(username !== "coder" || password !== "coder"){
+    return res.send("Vuelve a intentarlo")
+  }
+
+  req.session.user = username;
+  req.session.admin = true;
+  res.send(`Welcome ${username}`)
+});
+
+//ENDPOINT LUEGO DE SER ADMIN REGISTRADO
+router.get("/admin", (req, res) => {
+
+  if(!req.session.admin){
+    return res.send("Danied");
+  }
+
+  res.send(`Welcome ${req.session.user} eres el mas capo`)
+});
+
+//LOGOUT PARA EL ADMIN
+
+router.get("/logout", (req, res) => {
+
+  req.session.destroy()
+
+  res.send("Session close")
+
 })
 
 
