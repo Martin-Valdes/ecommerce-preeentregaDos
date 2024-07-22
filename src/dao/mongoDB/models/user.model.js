@@ -3,30 +3,27 @@ import mongoose from "mongoose";
 const userCollerction = "user";
 
 const userSchema = new mongoose.Schema({
-    ///agregamos lo que necesiotamos del usuario
-
     firstName: {
         type: String,
-        require: true
+        require: true,
     },
     lastName: {
         type: String,
-        require: true
+        require: true,
     },
     password: {
         type: String,
-        require: true
+        require: true,
     },
     email: {
         type: String,
         require: true,
         unique: true,
     },
-    age: {
+    age:{
         type: Number,
-        require: true
+        require: true,
     }
-
 });
 
 export const userModel = mongoose.model(userCollerction, userSchema);
