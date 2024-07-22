@@ -6,6 +6,9 @@ import { Server } from "socket.io";
 import { connectMongoDB } from "./config/mongoDB.config.js";
 import cookieParser from "cookie-parser";
 import session from "express-session";
+import passport from "passport";
+import { initializePassport } from "./config/passport.config.js";
+
 
 const app = express();
 const PORT = 8081;
@@ -27,6 +30,11 @@ app.use(session({
 app.engine("handlebars", handlebars.engine()); 
 app.set("views", __dirname + "/views"); 
 app.set("view engine", "handlebars"); 
+
+
+initializePassport();
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use("/", allRoutes);
 

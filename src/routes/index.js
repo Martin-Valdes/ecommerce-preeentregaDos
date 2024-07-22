@@ -4,6 +4,7 @@ import cartsRoutes from "./carts.routes.js";
 import viewsRoutes from "./views.routes.js";
 import sessionRouter from "./session.routes.js"
 
+
 const allRoutes = Router();
 
 allRoutes.use("/api/products", productsRoutes);
