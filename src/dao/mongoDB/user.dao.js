@@ -3,11 +3,15 @@ import {userModel} from "./models/user.model.js"
 
 const getAll = async (query, option) => {
     ////AQUI APLICAMOS LA PAGINACION SEGUN LOS DOS PARAMETROS QUE NOS LLEGAN QUERY Y OPTION
-    const products = await userModel.paginate(query, option);
+    const users = await userModel.paginate(query, option);
     return users
 };
 const getById = async (id) => {
     const user = await userModel.findById(id);
+    return user;
+};
+const getByEmail = async (email) => {
+    const user = await userModel.findOne({email: email});
     return user;
 };
 const create = async (data) => {
@@ -27,6 +31,7 @@ const deleteOne = async (id) => {
 export default {
     getAll,
     getById,
+    getByEmail,
     create,
     update,
     deleteOne,

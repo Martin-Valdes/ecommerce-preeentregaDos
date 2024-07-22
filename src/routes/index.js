@@ -9,6 +9,6 @@ const allRoutes = Router();
 allRoutes.use("/api/products", productsRoutes);
 allRoutes.use("/api/carts", cartsRoutes);
 allRoutes.use("/", viewsRoutes);
-allRoutes.use("/session", sessionRouter);
+allRoutes.use("/api/session", sessionRouter);
 
 export default allRoutes;

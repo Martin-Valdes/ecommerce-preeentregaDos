@@ -8,7 +8,7 @@ import cookieParser from "cookie-parser";
 import session from "express-session";
 
 const app = express();
-const PORT = 8080;
+const PORT = 8081;
 
 connectMongoDB();
 
