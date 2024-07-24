@@ -1,9 +1,12 @@
 import passport from "passport";
 import local from "passport-local";
+import google from "passport-google-oauth20";
 import userDao from "../dao/mongoDB/user.dao.js";
 import { createHash, isValidPassword } from "../utils/hashPassword.js";
+import  envs from "./envs.config.js"
 
 const LocalStrategy = local.Strategy;
+const GoogleStrategy = google.Strategy;
 
 export const initializePassport = () => {
     passport.use(
@@ -32,6 +35,33 @@ export const initializePassport = () => {
                 }
         })
     );
+
+    ////estrategia de autenticacion de google
+    passport.use(
+        "google",
+        new GoogleStrategy(
+            {
+            clientID: envs.GOOGLE_CLIENT_ID,
+            clientSecret: envs.GOOGLE_CLIENT_SECRET,
+            callbackURL: "http://localhost:8081/api/session/google",
+            },
+            async (accessToken, refreshToken, profile, cb) => {
+                try {
+                    const {id, name, emails} = profile;
+                    console.log(profile)
+                    
+                } catch (error) {
+                    return cb(error )
+                }
+            }
+        )
+    )
+
+
+
+
+
+
     passport.serializeUser((user, done) => {
 
         done(null, user._id);

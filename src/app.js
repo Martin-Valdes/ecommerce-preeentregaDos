@@ -8,10 +8,10 @@ import cookieParser from "cookie-parser";
 import session from "express-session";
 import passport from "passport";
 import { initializePassport } from "./config/passport.config.js";
+import envs from "./config/envs.config.js"
 
 
 const app = express();
-const PORT = 8081;
 
 connectMongoDB();
 
@@ -38,8 +38,8 @@ app.use(passport.session());
 
 app.use("/", allRoutes);
 
-const httpServer = app.listen(PORT, () => {
-    console.log(`Server on port ${PORT}`);
+const httpServer = app.listen(envs.PORT, () => {
+    console.log(`Server on port ${envs.PORT}`);
 });
 
 export const socketServer = new Server(httpServer);
