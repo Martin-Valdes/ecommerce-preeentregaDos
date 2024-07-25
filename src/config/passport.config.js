@@ -47,11 +47,23 @@ export const initializePassport = () => {
             },
             async (accessToken, refreshToken, profile, cb) => {
                 try {
-                    const {id, name, emails} = profile;
-                    console.log(profile)
-                    
+                    const { name, emails} = profile;
+                    const user = await userDao.getByEmail(emails[0].value);
+
+                    if (user){
+                        return cb(null, user);
+                        
+                    }else{
+                        const newUser = {
+                            firstName: name.givenName,
+                            lastName: name.familyName,
+                            email: emails[0].value,
+                        };
+                        const userCreate = await userDao.create(newUser);
+                        return cb(null, userCreate)
+                    }
                 } catch (error) {
-                    return cb(error )
+                    return cb(error);
                 }
             }
         )
