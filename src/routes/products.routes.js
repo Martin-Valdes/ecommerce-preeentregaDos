@@ -3,11 +3,13 @@ import productDao from "../dao/mongoDB/product.dao.js";
 import { verifyDataProduct } from "../middlewares/verifyDataProduct.middleware.js";
 import { verifyProductExist } from "../middlewares/verifyProductExist.middleware.js";
 import { checkToken } from "../middlewares/checToken.middleware.js";
+import { passportCall } from "../middlewares/passport.middleware.js";
+import { authorization } from "../middlewares/authorization.middleware.js";
 
 const router = Router();
 
 /// OBTENEMOS LOS PRODUCTOS SEGUN LOS FILTROS DEFINIDOS POR PARAMS DESDE QUERY
-router.get("/", checkToken, async (req, res) =>{
+router.get("/", passportCall("jwt"),authorization("user"), async (req, res) =>{
     
     try {
         ///OBTENEMOS DATOS PARA PAGINACION
