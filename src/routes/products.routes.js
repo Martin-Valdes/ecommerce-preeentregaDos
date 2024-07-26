@@ -2,11 +2,12 @@ import { Router } from "express";
 import productDao from "../dao/mongoDB/product.dao.js";
 import { verifyDataProduct } from "../middlewares/verifyDataProduct.middleware.js";
 import { verifyProductExist } from "../middlewares/verifyProductExist.middleware.js";
+import { checkToken } from "../middlewares/checToken.middleware.js";
 
 const router = Router();
 
 /// OBTENEMOS LOS PRODUCTOS SEGUN LOS FILTROS DEFINIDOS POR PARAMS DESDE QUERY
-router.get("/", async (req, res) =>{
+router.get("/", checkToken, async (req, res) =>{
     
     try {
         ///OBTENEMOS DATOS PARA PAGINACION

@@ -1,12 +1,16 @@
 import passport from "passport";
 import local from "passport-local";
 import google from "passport-google-oauth20";
+import jwt from "passport-jwt";
 import userDao from "../dao/mongoDB/user.dao.js";
 import { createHash, isValidPassword } from "../utils/hashPassword.js";
 import  envs from "./envs.config.js"
+import { cookieExtrator } from "../utils/cookieExtractor.js";
 
 const LocalStrategy = local.Strategy;
 const GoogleStrategy = google.Strategy;
+const JWTStrategy = jwt.Strategy;
+const ExtractJWT = jwt.ExtractJwt;
 
 export const initializePassport = () => {
     passport.use(
@@ -69,7 +73,21 @@ export const initializePassport = () => {
         )
     )
 
+    passport.use(
+        "jwt",
+        new JWTStrategy(
 
+            {jwtFromRequest: ExtractJWT.fromExtractors([cookieExtrator]), secretOrKey: envs.JWT_SECRET_CODE},
+            async(jwt_payload, done)=>{
+                try {
+                    console.log(jwt_payload)
+                    return done(null, jwt_payload)
+                } catch (error) {
+                    return done(error);
+                }
+            }
+        )
+    )
 
 
 

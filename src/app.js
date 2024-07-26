@@ -21,6 +21,7 @@ app.use(express.static("public"));
 
 //COOKIES
 app.use(cookieParser());
+
 app.use(session({
   secret: "secretCoder",
   resave: true,
