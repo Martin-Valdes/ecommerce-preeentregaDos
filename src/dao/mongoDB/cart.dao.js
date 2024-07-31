@@ -6,11 +6,11 @@ const getAll = async () => {
     return cart
 };
 const getById = async (id) => {
-    const cart = await cartModel.findById(id);
+    const cart = await cartModel.findById(id).populate("products.product");
     return cart;
 };
-const create = async (data) => {
-    const cart = await cartModel.create(data);
+const create = async () => {
+    const cart = await cartModel.create({});
     return cart;
 };
 const update = async (id, data) => {

@@ -2,10 +2,11 @@ import { Router } from "express";
 import cartDao from "../dao/mongoDB/cart.dao.js";
 import { verifyProductExist } from "../middlewares/verifyProductExist.middleware.js";
 import { verifyCartExist } from "../middlewares/verifyCartExist.middleware.js";
+import { isUserCart } from "../middlewares/isUserCart.middleware.js";
 
 
 const router = Router();
-const middlewares = [verifyCartExist, verifyProductExist];
+const middlewares = [verifyCartExist, verifyProductExist, isUserCart];
 
 /////FUNCION PARA AGREGAR UN CARRITO
 router.post("/", async (req, res) => {

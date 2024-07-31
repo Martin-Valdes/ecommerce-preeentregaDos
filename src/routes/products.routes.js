@@ -2,7 +2,6 @@ import { Router } from "express";
 import productDao from "../dao/mongoDB/product.dao.js";
 import { verifyDataProduct } from "../middlewares/verifyDataProduct.middleware.js";
 import { verifyProductExist } from "../middlewares/verifyProductExist.middleware.js";
-import { checkToken } from "../middlewares/checToken.middleware.js";
 import { passportCall } from "../middlewares/passport.middleware.js";
 import { authorization } from "../middlewares/authorization.middleware.js";
 
