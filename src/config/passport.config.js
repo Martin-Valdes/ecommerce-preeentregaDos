@@ -6,6 +6,7 @@ import userDao from "../dao/mongoDB/user.dao.js";
 import { createHash, isValidPassword } from "../utils/hashPassword.js";
 import  envs from "./envs.config.js"
 import { cookieExtrator } from "../utils/cookieExtractor.js";
+import cartDao from "../dao/mongoDB/cart.dao.js";
 
 const LocalStrategy = local.Strategy;
 const GoogleStrategy = google.Strategy;
@@ -21,12 +22,15 @@ export const initializePassport = () => {
                     const user = await userDao.getByEmail(username);
                     if(user) return done(null, false, {message: "User already exist"});
 
+                    const cart = await cartDao.create();
+
                     const newUser = {
                         firstName,
                         lastName,
                         password: createHash(password),
                         email: username,
                         age,
+                        cart: cart._id
                     }
 
                     const userCreate  = await userDao.create(newUser);

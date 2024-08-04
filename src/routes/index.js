@@ -12,4 +12,12 @@ allRoutes.use("/api/carts", cartsRoutes);
 allRoutes.use("/", viewsRoutes);
 allRoutes.use("/api/session", sessionRouter);
 
+allRoutes.get("*", async (req, res) => {
+    try {
+        res.status(404).json({status: "error", msg: "Route not found"});
+    } catch (error) {
+        res.status(500).json({status: "Erro", msg: "Internal Error Server"});
+    }
+} )
+
 export default allRoutes;
