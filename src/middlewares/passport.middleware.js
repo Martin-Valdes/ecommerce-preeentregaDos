@@ -12,6 +12,6 @@ export const passportCall = (strategy) =>{
             req.user = user;
             next();
         })(req, res, next);
-    }
+    };
     
-}
+};

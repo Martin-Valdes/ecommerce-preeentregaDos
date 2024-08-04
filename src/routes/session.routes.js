@@ -10,7 +10,7 @@ const router = Router();
 router.post("/register", passportCall("register"), async (req, res) =>{
 
     try {
-        res.status(201).json({status:"ok", msg:"user create"})
+        res.status(201).json({status:"ok", msg:"User create"})
     } catch (error) {
         console.log(error);
 
@@ -22,6 +22,10 @@ router.post("/register", passportCall("register"), async (req, res) =>{
 router.post("/login", passportCall("login"), async (req, res) =>{
 
     try {
+        const token = createToken(req.user);
+
+        res.cookie("token", token, {httpOnly: true});
+
         return res.status(200).json({status: "ok", payload: req.user});
     } catch (error) {
         console.log(error);

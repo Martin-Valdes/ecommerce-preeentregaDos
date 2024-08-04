@@ -115,7 +115,8 @@ export const initializePassport = () => {
             try {
                 const user = await userDao.getByEmail(username);
 
-                if(!user || !isValidPassword(user.password, password)) return done(null, false);
+                if(!user || !isValidPassword(user.password, password)) return done(null, false, {message: "User or email not found"});
+
 
                 return done(null, user);
 
