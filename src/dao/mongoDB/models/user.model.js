@@ -33,4 +33,9 @@ const userSchema = new mongoose.Schema({
     },
 });
 
+///POPULAMOS EL CART DEL USUARIO MOSTRAMOS EL CONTENIDO DEL CARRO
+userSchema.pre("findOne", function(){
+    this.populate("cart");
+})
+
 export const userModel = mongoose.model(userCollerction, userSchema);

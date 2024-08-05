@@ -1,5 +1,7 @@
 import { request, response } from "express";
 
+
+///VERIFICAMOS QUE EL CARRITO ES DEL USUARIO LOGUEADO
 export const isUserCart = async (req = request, res = response) => {
     const {cid} = req.params;
 

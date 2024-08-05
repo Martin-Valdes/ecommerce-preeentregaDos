@@ -7,13 +7,21 @@ import { createHash, isValidPassword } from "../utils/hashPassword.js";
 import  envs from "./envs.config.js"
 import { cookieExtrator } from "../utils/cookieExtractor.js";
 import cartDao from "../dao/mongoDB/cart.dao.js";
+import passportCustom from "passport-custom";
+import { verifyToken } from "../utils/jw.js";
 
 const LocalStrategy = local.Strategy;
 const GoogleStrategy = google.Strategy;
 const JWTStrategy = jwt.Strategy;
 const ExtractJWT = jwt.ExtractJwt;
+const CustomStrategy = passportCustom;
+
 
 export const initializePassport = () => {
+
+    ///REGISTRANDO NUEVO USUARIO. AL REGISTRARLO SE CREA UN CART.
+    // SE HASHEA EL PASSWORD. 
+    //SE VALIDA QUE EL USUARIO NO EXISTA.
     passport.use(
         "register",
         new LocalStrategy({passReqToCallback: true, usernameField: "email"}, async(req, username, password, done) => {
@@ -32,9 +40,7 @@ export const initializePassport = () => {
                         age,
                         cart: cart._id
                     }
-
                     const userCreate  = await userDao.create(newUser);
-
                     return done(null, userCreate);
 
                 } catch (error) {
@@ -76,7 +82,7 @@ export const initializePassport = () => {
             }
         )
     )
-
+    //ESTRATEGIA JSON WEB TOKEN
     passport.use(
         "jwt",
         new JWTStrategy(
@@ -92,10 +98,43 @@ export const initializePassport = () => {
             }
         )
     )
+    
+    passport.use(
+        "login",
+        new LocalStrategy({usernameField:"email"}, async(username, password, done) => {
+            try {
+                const user = await userDao.getByEmail(username);
 
+                if(!user || !isValidPassword(user.password, password)) return done(null, false, {message: "User or email not found"});
 
+                return done(null, user);
 
+            } catch (error) {
+                done(error);
+            }
+        })
+    )
 
+    //ESTRATEGIA CURRENT DE PASSPORT
+    passport.use(
+        "current",
+        new CustomStrategy(
+            async (req, done) => {
+                try {
+                    const token = cookieExtrator(req);
+                    if(!token) return done(null, false);
+                    const tokenVerify = verifyToken(token);
+                    if(!tokenVerify) return done(null, false);
+                    const user = await userDao.getByEmail(tokenVerify.email)
+                    done(null, user);
+                } catch (error) {
+                    done(error)
+                }
+            } 
+        )
+    )
+
+    
     passport.serializeUser((user, done) => {
 
         done(null, user._id);
@@ -109,20 +148,5 @@ export const initializePassport = () => {
             done(error);
         }
     });
-    passport.use(
-        "login",
-        new LocalStrategy({usernameField:"email"}, async(username, password, done) => {
-            try {
-                const user = await userDao.getByEmail(username);
 
-                if(!user || !isValidPassword(user.password, password)) return done(null, false, {message: "User or email not found"});
-
-
-                return done(null, user);
-
-            } catch (error) {
-                
-            }
-        })
-    )
 };
