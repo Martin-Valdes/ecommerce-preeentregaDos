@@ -23,7 +23,7 @@ app.use(express.static("public"));
 app.use(cookieParser());
 
 app.use(session({
-  secret: "secretCoder",
+  secret: envs.SECRET_CODE,
   resave: true,
   saveUninitialized: true,
 }));

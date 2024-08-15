@@ -2,12 +2,12 @@ import passport from "passport";
 import local from "passport-local";
 import google from "passport-google-oauth20";
 import jwt from "passport-jwt";
+import passportCustom from "passport-custom";
 import userDao from "../dao/mongoDB/user.dao.js";
 import { createHash, isValidPassword } from "../utils/hashPassword.js";
 import  envs from "./envs.config.js"
 import { cookieExtrator } from "../utils/cookieExtractor.js";
 import cartDao from "../dao/mongoDB/cart.dao.js";
-import passportCustom from "passport-custom";
 import { verifyToken } from "../utils/jw.js";
 
 const LocalStrategy = local.Strategy;
@@ -106,7 +106,7 @@ export const initializePassport = () => {
                 const user = await userDao.getByEmail(username);
 
                 if(!user || !isValidPassword(user.password, password)) return done(null, false, {message: "User or email not found"});
-
+                
                 return done(null, user);
 
             } catch (error) {
