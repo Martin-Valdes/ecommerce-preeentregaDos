@@ -3,11 +3,11 @@ import local from "passport-local";
 import google from "passport-google-oauth20";
 import jwt from "passport-jwt";
 import passportCustom from "passport-custom";
-import userDao from "../dao/mongoDB/user.dao.js";
+import userDao from "../dao/mongoDB/user.repository.js";
 import { createHash, isValidPassword } from "../utils/hashPassword.js";
 import  envs from "./envs.config.js"
 import { cookieExtrator } from "../utils/cookieExtractor.js";
-import cartDao from "../dao/mongoDB/cart.dao.js";
+import cartDao from "../dao/mongoDB/cart.repository.js";
 import { verifyToken } from "../utils/jw.js";
 
 const LocalStrategy = local.Strategy;

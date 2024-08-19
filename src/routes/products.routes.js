@@ -18,12 +18,12 @@ router.get(
 router.post("/", verifyDataProduct, productsControllers.createproduct);
 
 ////ELIMINAMOS UN PRODUCTO MEDIANTE ID
-router.delete("/:pid", verifyProductExist, productsControllers.deleteProduct);
+router.delete("/:pid", verifyProductExist,authorization("admin"), productsControllers.deleteProduct);
 
 ////MODIFICAMOS LA DATA DE UN PRODUCTO
-router.put("/:pid", verifyProductExist, productsControllers.updateModifyProduct);
+router.put("/:pid", verifyProductExist, authorization("admin"), productsControllers.updateModifyProduct);
 
 /////BUSCAMOS UN PRODUCTO MEDIANTE ID
-router.get("/:pid", verifyProductExist, productsControllers.getproductById);
+router.get("/:pid", verifyProductExist, authorization("admin"), productsControllers.getproductById);
 
 export default router;

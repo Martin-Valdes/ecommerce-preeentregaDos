@@ -1,24 +1,24 @@
-import productDao from "../dao/mongoDB/product.dao.js";
+import productRepository from "../dao/mongoDB/product.repository.js";
 
 
-const createproduct = async () => {
-    return await productDao.create();
+const createproduct = async (productData) => {
+    return await productRepository.create(productData);
 }
 
-const getProducts = async () => {
-    return await productDao.getAll();
+const getProducts = async (query, options) => {
+    return await productRepository.getAll(query, options);
 }
 
-const getproductById = async (cId) => {
-    return await productDao.getById(cId);
+const getproductById = async (pid) => {
+    return await productRepository.getById(pid);
 }
 
-const updateModifyProduct = async (pid) => {
-    return await productDao.updateModifyProduct(pid);
+const updateModifyProduct = async (pid, productData) => {
+    return await productRepository.updateModifyProduct(pid, productData);
 };
 
 const deleteProduct = async (pid) => {
-    return await productDao.deleteOne(pid);
+    return await productRepository.deleteOne(pid);
 }
 
 export default {

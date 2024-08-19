@@ -1,5 +1,5 @@
 import { request, response } from "express";
-import productsDao from "../dao/mongoDB/product.dao.js";
+import productsDao from "../dao/mongoDB/product.repository.js";
 
 export const verifyProductExist = async (
   req = request,

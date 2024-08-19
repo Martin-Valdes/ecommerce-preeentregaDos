@@ -1,4 +1,4 @@
-import userDao from "../dao/mongoDB/user.dao.js";
+import userDao from "../dao/mongoDB/user.repository.js";
 import { createToken } from "../utils/jw.js";
 
 const registerStrategy = async () => {

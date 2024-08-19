@@ -4,6 +4,7 @@ import { verifyProductExist } from "../middlewares/verifyProductExist.middleware
 import { verifyCartExist } from "../middlewares/verifyCartExist.middleware.js";
 import { isUserCart } from "../middlewares/isUserCart.middleware.js";
 import { passportCall } from "../middlewares/passport.middleware.js";
+import { authorization } from "../middlewares/authorization.middleware.js";
 
 
 const router = Router();
@@ -11,7 +12,10 @@ const router = Router();
 const middlewares = [verifyCartExist, verifyProductExist, passportCall("jwt"), isUserCart];
 
 /////FUNCION PARA AGREGAR UN CARRITO
-router.post("/", cartsControllers.createCart);
+router.post("/",
+  authorization("user"),
+   cartsControllers.createCart
+  );
 
 //////FUNCION PARA VER CARRITO POR ID
 router.get("/:cId", verifyCartExist, cartsControllers.getCartById);
@@ -19,13 +23,15 @@ router.get("/:cId", verifyCartExist, cartsControllers.getCartById);
 ////FUNCION PARA AGREGAR UN PRODUCTO AL CARRITO
 router.post(
   "/:cId/product/:pid",
-  middlewares,
+  middlewares, 
+  authorization("user"),
   cartsControllers.addProductToCart
 );
 
 ///AQUI ELIMINAMOS UN PRODUCTO DEL CARRITO
 router.delete(
   "/:cId/product/:pid",
+  authorization("user"),
   middlewares,
   cartsControllers.deletePorductToCart
 );
@@ -34,6 +40,7 @@ router.delete(
 
 router.put(
   "/:cId/product/:pid",
+  authorization("user"),
   middlewares,
   cartsControllers.updateModifyQuantity
 );

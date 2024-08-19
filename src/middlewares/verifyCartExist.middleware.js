@@ -1,5 +1,5 @@
 import { request, response } from "express";
-import productsDao from "../dao/mongoDB/cart.dao.js";
+import productsDao from "../dao/mongoDB/cart.repository.js";
 
 export const verifyCartExist = async (req = request, res = response, next) => {
   const { cId } = req.params;
