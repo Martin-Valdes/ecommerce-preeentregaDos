@@ -1,17 +1,13 @@
 import { Router } from "express";
-import userDao from "../dao/mongoDB/user.repository.js";
-import { isValidPassword } from "../utils/hashPassword.js";
 import passport from "passport";
-import { createToken } from "../utils/jw.js";
-import  {passportCall} from "../middlewares/passport.middleware.js";
-import sesionController from "../controllers/session.controllers.js"
+import {passportCall} from "../middlewares/passport.middleware.js";
 import sessionControllers from "../controllers/session.controllers.js";
 
 const router = Router();
 
-router.post("/register", passportCall("register"),sesionController.registerStrategy);
+router.post("/register", passportCall("register"), sessionControllers.registerStrategy);
 
-router.post("/login", passportCall("login"), sesionController.loginStrategy);
+router.post("/login", passportCall("login"), sessionControllers.loginStrategy);
 
 router.post("/auth", sessionControllers.authStrategy);
 

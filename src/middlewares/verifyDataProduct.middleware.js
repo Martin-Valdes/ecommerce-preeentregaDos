@@ -1,5 +1,5 @@
 import { request, response } from "express";
-import productsDao from "../dao/mongoDB/product.repository.js";
+import productRepository from "../dao/mongoDB/product.repository.js";
 
 export const verifyDataProduct = async (
   req = request,
@@ -17,7 +17,7 @@ export const verifyDataProduct = async (
       category,
     };
 
-    const products = await productsDao.getAll();
+    const products = await productRepository.getAll();
     // Validar que no se repita el campo de code
     const productExists = products.docs.find((p) => p.code === code);
     if (productExists)

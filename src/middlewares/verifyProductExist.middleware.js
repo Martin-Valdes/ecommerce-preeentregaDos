@@ -1,5 +1,5 @@
 import { request, response } from "express";
-import productsDao from "../dao/mongoDB/product.repository.js";
+import productRepository from "../dao/mongoDB/product.repository.js";
 
 export const verifyProductExist = async (
   req = request,
@@ -7,7 +7,7 @@ export const verifyProductExist = async (
   next
 ) => {
   const { pid } = req.params;
-  const product = await productsDao.getById(pid);
+  const product = await productRepository.getById(pid);
   if (!product)
     return res
       .status(404)

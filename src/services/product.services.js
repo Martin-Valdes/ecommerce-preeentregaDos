@@ -1,4 +1,5 @@
 import productRepository from "../dao/mongoDB/product.repository.js";
+import { respProductDto } from "../dto/product.dto.js";
 
 
 const createproduct = async (productData) => {
@@ -10,7 +11,9 @@ const getProducts = async (query, options) => {
 }
 
 const getproductById = async (pid) => {
-    return await productRepository.getById(pid);
+    const product = await productRepository.getById(pid)
+    const productResponse = respProductDto(product)
+    return productResponse;
 }
 
 const updateModifyProduct = async (pid, productData) => {
