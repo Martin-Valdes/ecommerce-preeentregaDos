@@ -7,18 +7,19 @@ import { passportCall } from "../middlewares/passport.middleware.js";
 import { authorization } from "../middlewares/authorization.middleware.js";
 
 
+
 const router = Router();
 
-const middlewares = [verifyCartExist, verifyProductExist, passportCall("jwt"), isUserCart];
+const middlewares = [verifyCartExist, passportCall("jwt"), isUserCart];
 
 /////FUNCION PARA AGREGAR UN CARRITO
-router.post("/",
+router.post("/",middlewares, 
   authorization("user"),
    cartsControllers.createCart
   );
 
 //////FUNCION PARA VER CARRITO POR ID
-router.get("/:cId", verifyCartExist, cartsControllers.getCartById);
+router.get("/:cId", verifyCartExist,middlewares,  cartsControllers.getCartById);
 
 ////FUNCION PARA AGREGAR UN PRODUCTO AL CARRITO
 router.post(
@@ -49,5 +50,7 @@ router.put(
 //CART.DAO PARA  VACIAR EL CARRITO A TRAVEZ DE UN ARRAY VACIO.
 //EN CASO DE NO COINCIDIR EL ID DEL CART CON NINGUNO DE LA BASE DE DATOS SE MUESTRA EL ERROR
 router.delete("/:cId", verifyCartExist, cartsControllers.deletePorductToCarts);
+
+router.get("/:cId/purchase",passportCall("jwt"), authorization("user"), cartsControllers.purchaseCart);
 
 export default router;

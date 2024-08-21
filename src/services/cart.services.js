@@ -1,4 +1,5 @@
 import cartRepository from "../dao/mongoDB/cart.repository.js";
+import productRepository from "../dao/mongoDB/product.repository.js";
 
 const createCart = async () => {
     return await cartRepository.create();
@@ -24,6 +25,26 @@ const deletePorductsToCarts = async (cId) => {
     return await cartRepository.deleteProductsTocarts(cId);
 
 }
+const purchaseCart = async (cid) => {
+    const cart = await cartRepository.getById(cid);
+    let total = 0;
+    const productsWithOutStock = [];
+
+    for (const productCart of cart.products) {
+        const product = await productRepository.getById(productCart.product);
+
+        if (product.stock >= productCart.quantity) {
+            total += product.price * productCart.quantity;
+            await productRepository.update(product._id, {stock: product.stock - productCart.quantity})
+        } else {
+            productsWithOutStock.push(productCart);
+        }
+
+        await cartRepository.update(cid, { products: productsWithOutStock });
+    }
+
+    return total;
+};
 
 export default {
     createCart,
@@ -31,5 +52,6 @@ export default {
     addProductToCart,
     deletePorductToCart,
     deletePorductsToCarts,
-    updateModifyQuantity
+    updateModifyQuantity,
+    purchaseCart,
 }

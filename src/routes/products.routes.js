@@ -4,7 +4,7 @@ import { verifyProductExist } from "../middlewares/verifyProductExist.middleware
 import { authorization } from "../middlewares/authorization.middleware.js";
 import productsControllers from "../controllers/products.controllers.js";
 import { passportCall } from "../middlewares/passport.middleware.js";
-import { verifyToken } from "../utils/jw.js";
+
 
 const router = Router();
 

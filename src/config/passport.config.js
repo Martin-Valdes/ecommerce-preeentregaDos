@@ -4,10 +4,10 @@ import google from "passport-google-oauth20";
 import jwt from "passport-jwt";
 import passportCustom from "passport-custom";
 import userRepository from "../dao/mongoDB/user.repository.js";
+import cartRepository from "../dao/mongoDB/cart.repository.js";
 import { createHash, isValidPassword } from "../utils/hashPassword.js";
 import  envs from "./envs.config.js"
 import { cookieExtrator } from "../utils/cookieExtractor.js";
-import cartRepository from "../dao/mongoDB/cart.repository.js";
 import { verifyToken } from "../utils/jw.js";
 
 
@@ -15,6 +15,7 @@ const LocalStrategy = local.Strategy;
 const GoogleStrategy = google.Strategy;
 const JWTStrategy = jwt.Strategy;
 const ExtractJWT = jwt.ExtractJwt;
+
 const CustomStrategy = passportCustom.Strategy;
 
 

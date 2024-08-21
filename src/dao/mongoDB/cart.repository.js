@@ -1,5 +1,4 @@
 import { cartModel } from "./models/cart.model.js";
-import { productModel } from "./models/products.models.js";
 
 const getAll = async () => {
   const cart = await cartModel.find({ status: true });

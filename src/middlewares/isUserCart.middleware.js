@@ -10,6 +10,7 @@ export const isUserCart = async (req = request, res = response, next) => {
     return res.status(401).json({ status: "error", msg: "Unauthorized" });
   }
   if (req.user.cart._id !== cId) {
+    console.log(cId)
     return res.status(401).json({ status: "error", msg: "Wrong cart user" });
   }
   next();
