@@ -1,54 +1,16 @@
 import { Router } from "express";
 import passport from "passport";
-import { createToken } from "../utils/jw.js";
 import {passportCall} from "../middlewares/passport.middleware.js";
-import userRepository from "../dao/mongoDB/user.repository.js";
-import { isValidPassword } from "../utils/hashPassword.js";
+import sessionControllers from "../controllers/session.controllers.js";
 
 
 const router = Router();
 
-router.post("/register", passportCall("register"), async (req, res) => {
-  try {
-    res.status(201).json({ status: "ok", msg: "User created" });
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({ status: "error", msg: "Internal server error" });
-  }
-});
+router.post("/register", passportCall("register"), sessionControllers.register);
 
-router.post("/login", passportCall("login"), async (req, res) => {
-  try {
-    const token = createToken(req.user);
+router.post("/login", passportCall("login"), sessionControllers.login);
 
-    res.cookie("token", token, { httpOnly: true });
-    
-    return res.status(200).json({ status: "ok", payload: req.user });
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({ status: "error", msg: "Internal server error" });
-  }
-});
-
-router.post("/auth", async (req, res) => {
-  try {
-    const { email, password } = req.body;
-    const user = await userRepository.getByEmail(email);
-
-    if (!user || !isValidPassword(user.password, password))
-      return res.status(401).json({ status: "error", msg: "User or email not found" });
-
-    const token = createToken(user);
-
-    res.cookie("token", token, { httpOnly: true });
-
-    return res.status(200).json({ status: "ok", user, token });
-  } catch (error) {
-    console.log(error);
-
-    res.status(500).json({ status: "error", msg: "Internal server error" });
-  }
-});
+router.post("/auth", sessionControllers.auth);
 
 router.get(
   "/google",
@@ -59,15 +21,7 @@ router.get(
     ],
     session: false,
   }),
-  async (req, res) => {
-    try {
-      return res.status(200).json({ status: "ok", payload: req.user });
-    } catch (error) {
-      console.log(error);
-
-      res.status(500).json({ status: "error", msg: "Internal server error" });
-    }
-  }
+  sessionControllers.googleauth
 );
 
 router.get("/current", passportCall("current"), async (req, res) => {

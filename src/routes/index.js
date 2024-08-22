@@ -3,6 +3,7 @@ import productsRoutes from "./products.routes.js";
 import cartsRoutes from "./carts.routes.js";
 import viewsRoutes from "./views.routes.js";
 import sessionRouter from "./session.routes.js"
+import contactRouter from "./contact.routes.js"
 
 
 const allRoutes = Router();
@@ -10,6 +11,7 @@ const allRoutes = Router();
 allRoutes.use("/api/products", productsRoutes);
 allRoutes.use("/api/carts", cartsRoutes);
 allRoutes.use("/api/session", sessionRouter);
+allRoutes.use("/api/contact", contactRouter);
 allRoutes.use("/", viewsRoutes);
 allRoutes.get("*", async (req, res) => {
     try {

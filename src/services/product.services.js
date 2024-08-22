@@ -17,7 +17,7 @@ const getproductById = async (pid) => {
 }
 
 const updateModifyProduct = async (pid, productData) => {
-    return await productRepository.updateModifyProduct(pid, productData);
+    return await productRepository.update(pid, productData);
 };
 
 const deleteProduct = async (pid) => {
